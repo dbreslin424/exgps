@@ -6,10 +6,19 @@ Photo GPS coordinate extractor tool that generates KML files
 
 ```
 node exgps.js -f [JPG file path]
-> Latitude: 55,55,55
-> Longitude 55,55,55
+> { latitude: 55.555, longitude: 55.555 }
 ```
 
 ## Usage
 
+Coming soon
+
 ## Options
+
+Coming soon
+
+## Future additions
+
+- export to .kml
+- support for multiple photos in a folder
+- CLI support

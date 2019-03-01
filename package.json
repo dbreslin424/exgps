@@ -14,7 +14,7 @@
     "start": "node exgps.js",
     "test": "jest",
     "coverage": "jest --coverage",
-    "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls.js && rm -rf ./coverage"
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls.js && rm -rf ./coverage"
   },
   "author": "Dan Breslin",
   "license": "MIT",

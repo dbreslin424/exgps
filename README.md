@@ -12,11 +12,10 @@ npm package coming soon
 
 Example _app.js_
 
-```
+```javascript
 const exgps = require('exgps');
 
-exgps('/path/to/image.jpg);
-
+exgps('/path/to/image.jpg');
 ```
 
 _note_: currently `exgps` will output the kml file to `process.cwd()`. Support for providing a different path will be added in the future.

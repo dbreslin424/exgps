@@ -13,7 +13,8 @@
   "scripts": {
     "start": "node exgps.js",
     "test": "jest",
-    "coverage": "jest --coverage"
+    "coverage": "jest --coverage",
+    "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls"
   },
   "author": "Dan Breslin",
   "license": "MIT",

@@ -2,12 +2,6 @@
 
 Photo GPS coordinate extractor tool that generates KML files
 
-## Example
-
-```
-node exgps.js -f [JPG file path]
-```
-
 ## Installation
 
 npm package coming soon

@@ -18,11 +18,17 @@
   "license": "MIT",
   "devDependencies": {
     "jest": "^24.1.0",
+    "pre-commit": "^1.2.2",
     "prettier": "1.16.4"
   },
   "dependencies": {
     "exif": "^0.6.0",
     "handlebars": "^4.1.0",
     "minimist": "^1.2.0"
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest/testSetup.js"
+    ]
   }
 }

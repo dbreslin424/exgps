@@ -6,12 +6,26 @@ Photo GPS coordinate extractor tool that generates KML files
 
 ```
 node exgps.js -f [JPG file path]
-> { latitude: 55.555, longitude: 55.555 }
 ```
+
+## Installation
+
+npm package coming soon
 
 ## Usage
 
-Coming soon
+`exgps` exposes a function that takes a file path to an image file with EXIF data and outputs a KML document containing GPS coordinates of the file.
+
+Example _app.js_
+
+```
+const exgps = require('exgps');
+
+exgps('/path/to/image.jpg);
+
+```
+
+_note_: currently `exgps` will output the kml file to `process.cwd()`. Support for providing a different path will be added in the future.
 
 ## Options
 
@@ -19,6 +33,6 @@ Coming soon
 
 ## Future additions
 
-- export to .kml
+- export KML to specific directory
 - support for multiple photos in a folder
 - CLI support

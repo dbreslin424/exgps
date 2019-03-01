@@ -10,9 +10,8 @@ if (args.version || args.v) {
 }
 
 // parse flags into options object
-const options = {
-  file: args.f || args.file
-};
+const path = args.f || args.file;
+const options = {};
 
 // process commands
 switch (cmd) {
@@ -20,7 +19,7 @@ switch (cmd) {
     require('../cmds/version.js')();
     break;
   default:
-    exgps(options);
+    exgps(path, options);
 }
 
 //TODO load files from folder

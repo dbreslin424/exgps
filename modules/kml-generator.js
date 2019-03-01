@@ -1,5 +1,6 @@
 const HB = require('handlebars');
 const fs = require('fs');
+const path = require('path');
 
 const generate = placemarkArray => {
   console.log('# Generating KML...');
@@ -18,7 +19,8 @@ const generate = placemarkArray => {
 
 const write = kmlContents => {
   console.log('# Writing to .kml...');
-  fs.writeFileSync('coordinates.kml', kmlContents, 'utf8');
+  const outputDir = process.cwd();
+  fs.writeFileSync(path.join('coordinates.kml'), kmlContents, 'utf8');
   console.log('> Done');
 };
 

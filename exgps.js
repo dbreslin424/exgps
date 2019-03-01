@@ -1,32 +1,30 @@
-const minimist = require('minimist');
-const { ExifGPS } = require('./modules');
+const { ExifGPS, KML } = require('./modules');
 
-//TODO CLI integration
+//TODO extract CLI integration
 
-const args = minimist(process.argv.slice(2));
-let cmd = args._[0];
+const validateOptions = ({ file }) => {
+  if (!file) {
+    throw new Error('File path not provided.');
+  }
 
-if (args.version || args.v) {
-  cmd = 'version';
-}
+  //add defaults for options
 
-switch (cmd) {
-  case !cmd:
-    break;
-  case 'version':
-    require('./cmds/version.js')();
-    break;
-  default:
-    break;
-}
+  return {
+    file
+  };
+};
 
-//TODO load files from folder
+const main = async ({ file }) => {
+  try {
+    const coords = await ExifGPS(file);
+    const kml = KML.generate(coords);
+    KML.write(kml);
+    console.log('Finished.');
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-const file = args.f || args.file;
-ExifGPS(file).then(coords => console.log(coords), error => console.log(error));
-
-//TODO render KML document
-
-//TODO export KML document
+module.exports = main;
 
 //TODO add logging

@@ -19,6 +19,7 @@
   "author": "Dan Breslin",
   "license": "MIT",
   "devDependencies": {
+    "coveralls": "^3.0.3",
     "jest": "^24.1.0",
     "pre-commit": "^1.2.2",
     "prettier": "1.16.4"

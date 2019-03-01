@@ -8,7 +8,7 @@ const validateOptions = options => {
   return {};
 };
 
-const prevalidation = () => {
+const prevalidation = (path, options) => {
   if (!path) {
     throw new Error('File path not provided.');
   }
@@ -22,12 +22,13 @@ const main = async (path, options) => {
     console.log('Finished.');
   } catch (error) {
     console.error(error);
+    return error;
   }
 };
 
 module.exports = (path, options) => {
   prevalidation(path, options);
-  main(path, options);
+  return main(path, options);
 };
 
 //TODO add logging

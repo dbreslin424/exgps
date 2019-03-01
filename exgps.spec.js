@@ -1,9 +1,18 @@
 const exgps = require('./exgps');
-jest.mock('./modules');
+const ExifGPS = require('./modules/exif');
+const KML = require('./modules/kml-generator');
 
-console.log = jest.fn();
+jest.mock('./modules/exif');
+jest.mock('./modules/kml-generator');
 
 describe('exgps main functionality', () => {
+  it('should run main method and call child modules', () => {
+    exgps('/path/to/file.jpg').then(() => {
+      expect(ExifGPS).toHaveBeenCalled();
+      expect(KML.generate).toHaveBeenCalled();
+      expect(KML.write).toHaveBeenCalled();
+    });
+  });
   it('should throw an error if no file is provided', () => {
     expect(() => {
       exgps();

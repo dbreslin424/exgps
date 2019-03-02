@@ -23,7 +23,7 @@ describe('KML Document generation', () => {
   });
 
   it('writes kml to filesystem via fs', () => {
-    write('1234');
+    write('1234', 'test.kml');
     expect(fs.writeFileSync).toHaveBeenCalled();
   });
 });

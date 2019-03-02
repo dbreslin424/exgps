@@ -12,6 +12,10 @@ if (args.version || args.v) {
 const path = args.f || args.file;
 const options = {};
 
+if (args.o || args.output) {
+  options.outFile = args.o || args.output;
+}
+
 // process commands
 switch (cmd) {
   case 'version':

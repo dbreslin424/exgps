@@ -1,6 +1,5 @@
 import HB from 'handlebars';
 import fs from 'fs';
-import path from 'path';
 import { Coords } from '../types/coords';
 
 export const generate = (placemarks: Coords[]) => {
@@ -18,8 +17,8 @@ export const generate = (placemarks: Coords[]) => {
   return kml;
 };
 
-export const write = (kmlContents: string) => {
-  console.log('# Writing to .kml...');
-  fs.writeFileSync(path.join('coordinates.kml'), kmlContents, 'utf8');
+export const write = (kmlContents: string, outFile: string) => {
+  console.log(`# Writing to ${outFile}...`);
+  fs.writeFileSync(outFile, kmlContents, 'utf8');
   console.log('> Done');
 };

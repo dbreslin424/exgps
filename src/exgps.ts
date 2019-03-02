@@ -2,34 +2,35 @@
 
 import * as ExifGPS from './modules/exif-gps';
 import * as KML from './modules/kml-generator';
-
+import {
+  DEFAULT_OUTPUT_FILENAME,
+  OUTPUT_FILE_EXTENSION
+} from './config/constants';
 //TODO extract CLI integration
 
 interface Options {
   outFile: string;
 }
 
-const validateOptions = (options?: Options) => {
-  //add defaults for options
-
-  console.log('options:' + options);
-  return {};
+const setDefaultOptions = (options: any): Options => {
+  const outFileName = options.outFile || DEFAULT_OUTPUT_FILENAME;
+  return {
+    ...options,
+    outFile: `${outFileName}.${OUTPUT_FILE_EXTENSION}`
+  };
 };
 
-const prevalidation = (path: string, options?: Options) => {
+const prevalidation = (path: string) => {
   if (!path) {
     throw new Error('File path not provided.');
   }
-
-  validateOptions(options);
 };
 
-const main = async (path: string, options?: Options) => {
-  console.log(options);
+const main = async (path: string, options: Options) => {
   try {
     const coords = await ExifGPS.generateCoordinates(path);
     const kml = KML.generate(coords);
-    KML.write(kml);
+    KML.write(kml, options.outFile);
     console.log('Finished.');
   } catch (error) {
     console.error(error);
@@ -37,9 +38,10 @@ const main = async (path: string, options?: Options) => {
   }
 };
 
-export const run = (path: string, options?: Options): Promise<any> => {
-  prevalidation(path, options);
-  return main(path, options);
+export const run = (path: string, options: object = {}): Promise<any> => {
+  prevalidation(path);
+  const defaultedOptions = setDefaultOptions(options);
+  return main(path, defaultedOptions);
 };
 
 //TODO add logging

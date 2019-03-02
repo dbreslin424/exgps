@@ -3,7 +3,7 @@ const mockExif = {
     GPSLatitude: [5, 5, 5],
     GPSLatitudeRef: 'N',
     GPSLongitude: [5, 5, 5],
-    GPSLatitudeRef: 'W',
+    GPSLongitudeRef: 'W',
     GPSAltitude: 0
   }
 };

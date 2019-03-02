@@ -1,5 +1,5 @@
 export const DEFAULT_OUTPUT_FILENAME = 'coordinates';
-export const OUTPUT_FILE_EXTENSION = '.kml';
+export const OUTPUT_FILE_EXTENSION = 'kml';
 
 interface DirectionFactors {
   [key: string]: number;

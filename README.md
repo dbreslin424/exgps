@@ -10,24 +10,25 @@ npm package coming soon
 
 ## Usage
 
-`exgps` exposes a function that takes a file path to an image file with EXIF data and outputs a KML document containing GPS coordinates of the file.
+`exgps` takes a file path to an image file with EXIF data, then outputs a KML document containing GPS coordinates.
 
 Example _app.js_
 
 ```javascript
 const exgps = require('exgps');
 
-exgps('/path/to/image.jpg');
+exgps.run('/path/to/image.jpg', [options]);
 ```
-
-_note_: currently `exgps` will output the kml file to `process.cwd()`. Support for providing a different path will be added in the future.
 
 ## Options
 
-Coming soon
+```javascript
+{
+  outFile: 'coordinates'; // writes output to "coordinates.kml
+}
+```
 
 ## Future additions
 
-- export KML to specific directory
-- support for multiple photos in a folder
+- support for multiple photos in a directory
 - CLI support

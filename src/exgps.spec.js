@@ -1,5 +1,5 @@
 const exgps = require('./exgps');
-const ExifGPS = require('./modules/exif');
+const ExifGPS = require('./modules/exif-gps');
 const KML = require('./modules/kml-generator');
 
 jest.mock('./modules/exif');

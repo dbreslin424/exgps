@@ -1,6 +1,7 @@
 # exgps
 
 [![Build Status](https://travis-ci.org/dbreslin424/exgps.svg?branch=master)](https://travis-ci.org/dbreslin424/exgps) [![Coverage Status](https://coveralls.io/repos/github/dbreslin424/exgps/badge.svg?branch=master)](https://coveralls.io/github/dbreslin424/exgps?branch=master)
+
 Photo GPS coordinate extractor tool that generates KML files
 
 ## Installation

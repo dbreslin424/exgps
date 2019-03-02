@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 const minimist = require('minimist');
-const exgps = require('../exgps.js');
-
+const exgps = require('../dist/exgps.js');
 const args = minimist(process.argv.slice(2));
 let cmd = args._[0];
 
@@ -19,7 +18,7 @@ switch (cmd) {
     require('../cmds/version.js')();
     break;
   default:
-    exgps(path, options);
+    exgps.run(path, options);
 }
 
 //TODO load files from folder

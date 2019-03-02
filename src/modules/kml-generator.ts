@@ -1,8 +1,14 @@
-const HB = require('handlebars');
-const fs = require('fs');
-const path = require('path');
+import HB from 'handlebars';
+import fs from 'fs';
+import path from 'path';
 
-const generate = placemarkArray => {
+interface Coords {
+  longitude: number;
+  latitude: number;
+  altitude: number;
+}
+
+export const generate = (placemarks: Coords[]) => {
   console.log('# Generating KML...');
   const kmlTemplate = fs.readFileSync(
     `${process.cwd()}/templates/kml.handlebars`,
@@ -11,20 +17,14 @@ const generate = placemarkArray => {
 
   const compiledTemplate = HB.compile(kmlTemplate);
 
-  var kml = compiledTemplate({ placemarks: placemarkArray });
+  var kml = compiledTemplate({ placemarks });
 
   console.log('> Done');
   return kml;
 };
 
-const write = kmlContents => {
+export const write = (kmlContents: string) => {
   console.log('# Writing to .kml...');
-  const outputDir = process.cwd();
   fs.writeFileSync(path.join('coordinates.kml'), kmlContents, 'utf8');
   console.log('> Done');
-};
-
-module.exports = {
-  generate,
-  write
 };

@@ -9,14 +9,14 @@ interface Options {
   outFile: string;
 }
 
-const validateOptions = (options: Options) => {
+const validateOptions = (options?: Options) => {
   //add defaults for options
 
   console.log('options:' + options);
   return {};
 };
 
-const prevalidation = (path: string, options: Options) => {
+const prevalidation = (path: string, options?: Options) => {
   if (!path) {
     throw new Error('File path not provided.');
   }
@@ -24,7 +24,7 @@ const prevalidation = (path: string, options: Options) => {
   validateOptions(options);
 };
 
-const main = async (path: string, options: Options) => {
+const main = async (path: string, options?: Options) => {
   console.log(options);
   try {
     const coords = await ExifGPS.generateCoordinates(path);
@@ -37,7 +37,7 @@ const main = async (path: string, options: Options) => {
   }
 };
 
-export const run = (path: string, options: Options): Promise<any> => {
+export const run = (path: string, options?: Options): Promise<any> => {
   prevalidation(path, options);
   return main(path, options);
 };

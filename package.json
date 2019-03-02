@@ -21,11 +21,13 @@
   "author": "Dan Breslin",
   "license": "MIT",
   "devDependencies": {
+    "@types/jest": "^24.0.9",
     "@types/node": "^11.10.4",
     "coveralls": "^3.0.3",
     "jest": "^24.1.0",
     "pre-commit": "^1.2.2",
     "prettier": "1.16.4",
+    "ts-jest": "^24.0.0",
     "typescript": "^3.3.3333"
   },
   "dependencies": {
@@ -48,10 +50,25 @@
     ]
   },
   "jest": {
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(ts|tsx)?$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
     "collectCoverageFrom": [
-      "exgps.js",
-      "modules/**/*.js",
-      "!**/index.js"
+      "src/exgps.ts",
+      "src/modules/**/*.ts",
+      "!**/index.ts"
     ],
     "setupFilesAfterEnv": [
       "<rootDir>/jest/testSetup.js"

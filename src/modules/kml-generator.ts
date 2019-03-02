@@ -1,12 +1,7 @@
 import HB from 'handlebars';
 import fs from 'fs';
 import path from 'path';
-
-interface Coords {
-  longitude: number;
-  latitude: number;
-  altitude: number;
-}
+import { Coords } from '../types/coords';
 
 export const generate = (placemarks: Coords[]) => {
   console.log('# Generating KML...');

@@ -3,16 +3,10 @@
 import { promisify } from 'util';
 import exif from 'exif';
 import { DIRECTION_FACTORS } from '../config/constants';
+import { Coords } from '../types/coords';
 
 const exifPromise = promisify(exif.ExifImage);
 //TODO Promisify and add async await
-
-//TODO extract to global type def
-interface Coords {
-  longitude: number;
-  latitude: number;
-  altitude: number;
-}
 
 const translateToDecimal = (coords: number[], directionRef: string = 'N') => {
   const [degrees = 0, minutes = 0, seconds = 0] = coords;

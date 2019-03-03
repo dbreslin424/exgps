@@ -4,6 +4,8 @@ import { promisify } from 'util';
 import exif from 'exif';
 import { DIRECTION_FACTORS } from '../config/constants';
 import { Coords } from '../types/coords';
+import { getPathType } from '../util/file';
+import { FILE_TYPE, DIRECTORY_TYPE } from '../config/constants';
 
 const exifPromise = promisify(exif.ExifImage);
 //TODO Promisify and add async await
@@ -43,10 +45,37 @@ const loadExifData = async (file: string): Promise<Coords> => {
   };
 };
 
-export const generateCoordinates = async (file: string): Promise<Coords[]> => {
+const loadFromFile = async (filePath: string): Promise<Coords[]> => {
   const coordsArray = [];
-  const coords = await loadExifData(file);
+  const coords = await loadExifData(filePath);
 
   coordsArray.push(coords);
   return coordsArray;
+};
+
+// const loadFromDir = async (dirPath: string): Promise<Coords> => {
+//   const coordsArray: Coords[] = [];
+//   const imageFiles = listImagesInDir(dirPath);
+//   const promises = imageFiles.map(
+//     async (file: string): Promise<Coords> => await loadExifData(file)
+//   );
+//   //return coordsArray;
+
+//   //return await Promise.all<Coords, void>(promises);
+// };
+
+export const generateCoordinates = async (path: string): Promise<Coords[]> => {
+  const pathType = getPathType(path);
+
+  let coords: Coords[] = [];
+  switch (pathType) {
+    case FILE_TYPE:
+      coords = await loadFromFile(path);
+      break;
+    case DIRECTORY_TYPE:
+      //coords = await loadFromDir(path);
+      break;
+  }
+
+  return coords;
 };

@@ -1,6 +1,9 @@
 export const DEFAULT_OUTPUT_FILENAME = 'coordinates';
 export const OUTPUT_FILE_EXTENSION = 'kml';
 
+export const FILE_TYPE = 'file';
+export const DIRECTORY_TYPE = 'dir';
+
 interface DirectionFactors {
   [key: string]: number;
 }

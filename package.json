@@ -13,7 +13,7 @@
   "scripts": {
     "start": "node exgps.js",
     "test": "jest",
-    "dev": "tsc",
+    "build": "tsc",
     "watch": "tsc -w",
     "coverage": "jest --coverage",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls && rm -rf ./coverage"

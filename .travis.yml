@@ -1,6 +1,14 @@
 language: node_js
 node_js:
   - "11"
-
 script: npm run coverage
-after_success: "npm run coveralls"
+after_success: npm run coveralls
+deploy:
+  provider: releases
+  api_key:
+    secure: alpa/rGk3PMGByWgFs0JhQ6AGdh5K53p/ifstDgm3zJkPJ+2JTb0Pod1e7zDUZr/+0GT7TfvhgZpyZ2ZI3+McVWMN0hQtNQAU4KPhdOFeywKVx2Dra/4n7XiUkUYo4M1HIvlIAbURiVowLvqclXPXbBrKS6A5lwCh8TMYVj616zr9Kg0c8WPYMcuw/WrPFgfKCsRRO9grUxrQEdiAu+OJwO0lyX8MyxhwXgRyVO9VYBg1dHLZrZ+7XLvhzXzD0hzHoRG/7jmMMjM0+Y47zB0ukBWN+4fXJ1hkMfOz+oJaCBqJYp2Ju/Hk+aiq9b2MFYif/ncbfDzV0X9veJxvlPI7fbFSFaKG0CKtg6udKiZa6RnT0YGzIkQ+v6FeWxf5bofsfkbEJvnKOiGEcwypX3JW45+EOe5hkYTzMq/ugAquu9zMLOYJD6aIA4D57/Gxbj3w0a6A9Hypcba9eNsYt2BpNf1JN94d91e49xqMOgbGpXxsTQYuy+QUZIwL1EH3Cud7PBhqy6ekbJNQyHKjwhec/z3DpXkZZJumYfEsvxoXlDtr226KzpC4r+672uFHGkGWDC+t3hBZNXNSHE7PButL4s+Bwwf5gyscDunvUoOruztXCvHlgxlK4At0UkE7pMijOdO85Y4vVq6EY0rjE+YosxpmYalqs6MCFPFWqlr1D4=
+  file: dist/*
+  draft: true
+  on:
+    tags: true
+    repo: dbreslin424/exgps

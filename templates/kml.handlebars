@@ -2,9 +2,12 @@
 <kml xmlns="http://www.opengis.net/kml/2.2">
   {{#each placemarks}}
   <Placemark>
-    <name>Simple placemark</name>
-    <description>Attached to the ground. Intelligently places itself at the height of the underlying terrain.
-    </description>
+    <name>{{this.name}}</name>
+    {{#if this.timestamp}}
+    <TimeStamp>
+      <when>{{this.timestamp}}</when>
+    </TimeStamp>
+    {{/if}}
     <Point>
       <coordinates>{{this.longitude}},{{this.latitude}},{{this.altitude}}</coordinates>
     </Point>

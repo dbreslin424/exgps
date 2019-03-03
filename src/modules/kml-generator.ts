@@ -1,8 +1,8 @@
 import HB from 'handlebars';
 import fs from 'fs';
-import { Coords } from '../types/coords';
+import { ImageData } from '../types/image-data';
 
-export const generate = (placemarks: Coords[]) => {
+export const generate = (placemarks: ImageData[]) => {
   console.log('# Generating KML...');
   const kmlTemplate = fs.readFileSync(
     `${process.cwd()}/templates/kml.handlebars`,
@@ -13,12 +13,10 @@ export const generate = (placemarks: Coords[]) => {
 
   var kml = compiledTemplate({ placemarks });
 
-  console.log('> Done');
   return kml;
 };
 
-export const write = (kmlContents: string, outFile: string) => {
-  console.log(`# Writing to ${outFile}...`);
-  fs.writeFileSync(outFile, kmlContents, 'utf8');
-  console.log('> Done');
+export const write = (kmlContents: string, outputFile: string) => {
+  console.log(`# Writing to ${outputFile}...`);
+  fs.writeFileSync(outputFile, kmlContents, 'utf8');
 };

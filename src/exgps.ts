@@ -9,14 +9,14 @@ import {
 //TODO extract CLI integration
 
 interface Options {
-  outFile: string;
+  outputFile: string;
 }
 
 const setDefaultOptions = (options: any): Options => {
-  const outFileName = options.outFile || DEFAULT_OUTPUT_FILENAME;
+  const outputFileName = options.outputFile || DEFAULT_OUTPUT_FILENAME;
   return {
     ...options,
-    outFile: `${outFileName}.${OUTPUT_FILE_EXTENSION}`
+    outputFile: `${outputFileName}.${OUTPUT_FILE_EXTENSION}`
   };
 };
 
@@ -30,7 +30,7 @@ const main = async (path: string, options: Options) => {
   try {
     const coords = await ExifGPS.generateCoordinates(path);
     const kml = KML.generate(coords);
-    KML.write(kml, options.outFile);
+    KML.write(kml, options.outputFile);
     console.log('Finished.');
   } catch (error) {
     console.error(error);

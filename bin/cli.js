@@ -13,7 +13,7 @@ const path = args.f || args.file;
 const options = {};
 
 if (args.o || args.output) {
-  options.outFile = args.o || args.output;
+  options.outputFile = args.o || args.output;
 }
 
 // process commands

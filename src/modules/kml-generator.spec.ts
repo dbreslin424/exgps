@@ -10,6 +10,7 @@ jest.mock('handlebars', () => {
 jest.mock('fs');
 
 const mockPlacemark = {
+  name: 'name',
   longitude: 5,
   latitude: 5,
   altitude: 5

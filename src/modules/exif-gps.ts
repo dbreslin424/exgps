@@ -3,9 +3,11 @@
 import { promisify } from 'util';
 import exif from 'exif';
 import { DIRECTION_FACTORS } from '../config/constants';
-import { Coords } from '../types/coords';
-import { getPathType } from '../util/file';
+import { ImageData } from '../types/image-data';
+import { getPathType, listImagesInDir } from '../util/file';
+import { parseExifDate } from '../util/date';
 import { FILE_TYPE, DIRECTORY_TYPE } from '../config/constants';
+import path from 'path';
 
 const exifPromise = promisify(exif.ExifImage);
 //TODO Promisify and add async await
@@ -19,16 +21,17 @@ const translateToDecimal = (coords: number[], directionRef: string = 'N') => {
   return (degrees + minutes / 60 + seconds / 3600) * direction;
 };
 
-const loadExifData = async (file: string): Promise<Coords> => {
-  console.log('# Reading GPS data from EXIF...');
+const loadExifData = async (file: string): Promise<ImageData> => {
+  console.log(`# Reading EXIF GPS data from ${file}...`);
   let exifData;
   try {
     exifData = await exifPromise({ image: file });
   } catch (error) {
-    throw new Error(error);
+    console.log(error);
+    throw new Error(error.message);
   }
 
-  const { gps } = exifData;
+  const { gps, exif } = exifData;
 
   const lat = translateToDecimal(gps.GPSLatitude, gps.GPSLatitudeRef);
 
@@ -36,46 +39,49 @@ const loadExifData = async (file: string): Promise<Coords> => {
 
   const alt = translateToDecimal([gps.GPSAltitude]);
 
-  console.log('Done');
+  const time = parseExifDate(exif.CreateDate);
 
+  const fileName = path.basename(file, path.extname(file));
   return {
+    name: fileName,
     latitude: lat || 0,
     longitude: long || 0,
-    altitude: alt || 0
+    altitude: alt || 0,
+    timestamp: time
   };
 };
 
-const loadFromFile = async (filePath: string): Promise<Coords[]> => {
-  const coordsArray = [];
-  const coords = await loadExifData(filePath);
-
-  coordsArray.push(coords);
-  return coordsArray;
+const loadFromFile = async (filePath: string): Promise<ImageData[]> => {
+  const imageData = await loadExifData(filePath);
+  return [imageData];
 };
 
-// const loadFromDir = async (dirPath: string): Promise<Coords> => {
-//   const coordsArray: Coords[] = [];
-//   const imageFiles = listImagesInDir(dirPath);
-//   const promises = imageFiles.map(
-//     async (file: string): Promise<Coords> => await loadExifData(file)
-//   );
-//   //return coordsArray;
+// TODO figure out how to use async/await instead of promise handling
+const loadFromDir = async (dirPath: string): Promise<ImageData[]> => {
+  const imageFiles = listImagesInDir(dirPath);
+  const promises: Promise<ImageData>[] = imageFiles.map(
+    async (file: string): Promise<ImageData> => {
+      return await loadExifData(path.join(dirPath, file));
+    }
+  );
 
-//   //return await Promise.all<Coords, void>(promises);
-// };
+  return Promise.all<any>(promises).then((coords: any) => coords);
+};
 
-export const generateCoordinates = async (path: string): Promise<Coords[]> => {
+export const generateCoordinates = async (
+  path: string
+): Promise<ImageData[]> => {
   const pathType = getPathType(path);
 
-  let coords: Coords[] = [];
+  let imageData: ImageData[] = [];
   switch (pathType) {
     case FILE_TYPE:
-      coords = await loadFromFile(path);
+      imageData = await loadFromFile(path);
       break;
     case DIRECTORY_TYPE:
-      //coords = await loadFromDir(path);
+      imageData = await loadFromDir(path);
       break;
   }
 
-  return coords;
+  return imageData;
 };

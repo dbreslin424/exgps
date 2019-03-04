@@ -6,7 +6,7 @@ Photo GPS coordinate extractor tool that generates KML files
 
 ## Installation
 
-npm package coming soon
+`npm install exgps`
 
 ## Usage
 
@@ -17,18 +17,51 @@ Example _app.js_
 ```javascript
 const exgps = require('exgps');
 
+// image file
 exgps.run('/path/to/image.jpg', [options]);
+
+// folder containing images
+exgps.run('/path/to/images/', [options]);
 ```
 
 ## Options
 
 ```javascript
 {
-  outFile: 'coordinates'; // writes output to "coordinates.kml
+  // writes output to "coordinates.kml. If not provided, KML document will be logged to the console
+  outputFile: 'coordinates';
 }
+```
+
+## Output
+
+KML file structure:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Placemark>
+    <name>filename1</name>
+    <TimeStamp>
+      <when>[ISO timestamp]</when>
+    </TimeStamp>
+    <Point>
+      <coordinates>[longitude],[latitude],[altitude</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>filename2</name>
+    <TimeStamp>
+      <when>[ISO timestamp]</when>
+    </TimeStamp>
+    <Point>
+      <coordinates>[longitude],[latitude],[altitude</coordinates>
+    </Point>
+  </Placemark>
+</kml>
 ```
 
 ## Future additions
 
-- support for multiple photos in a directory
+- additional KML features
 - CLI support

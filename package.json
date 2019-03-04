@@ -1,6 +1,6 @@
 {
   "name": "exgps",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Tool to extract GPS coordinates from photos",
   "repository": {
     "type": "git",

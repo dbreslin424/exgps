@@ -2,21 +2,19 @@
 
 import * as ExifGPS from './modules/exif-gps';
 import * as KML from './modules/kml-generator';
-import {
-  DEFAULT_OUTPUT_FILENAME,
-  OUTPUT_FILE_EXTENSION
-} from './config/constants';
+import { OUTPUT_FILE_EXTENSION } from './config/constants';
 //TODO extract CLI integration
 
 interface Options {
-  outputFile: string;
+  outputFile?: string;
 }
 
 const setDefaultOptions = (options: any): Options => {
-  const outputFileName = options.outputFile || DEFAULT_OUTPUT_FILENAME;
   return {
     ...options,
-    outputFile: `${outputFileName}.${OUTPUT_FILE_EXTENSION}`
+    outputFile: options.outputFile
+      ? `${options.outputFile}.${OUTPUT_FILE_EXTENSION}`
+      : null
   };
 };
 
@@ -28,10 +26,17 @@ const prevalidation = (path: string) => {
 
 const main = async (path: string, options: Options) => {
   try {
-    const coords = await ExifGPS.generateCoordinates(path);
+    const coords = await ExifGPS.generateImageData(path);
     const kml = KML.generate(coords);
-    KML.write(kml, options.outputFile);
-    console.log('Finished.');
+
+    if (options.outputFile) {
+      KML.write(kml, options.outputFile);
+      console.log('Finished.');
+    } else {
+      console.log('-- KML --------');
+      console.log(kml);
+      console.log('---------------');
+    }
   } catch (error) {
     console.error(error);
     return error;

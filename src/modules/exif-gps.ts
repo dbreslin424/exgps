@@ -4,7 +4,7 @@ import { promisify } from 'util';
 import exif from 'exif';
 import { DIRECTION_FACTORS } from '../config/constants';
 import { ImageData } from '../types/image-data';
-import { getPathType, listImagesInDir } from '../util/file';
+import { getPathType, listImagesInDir, loadImage } from '../util/file';
 import { parseExifDate } from '../util/date';
 import { FILE_TYPE, DIRECTORY_TYPE } from '../config/constants';
 import path from 'path';
@@ -21,16 +21,7 @@ const translateToDecimal = (coords: number[], directionRef: string = 'N') => {
   return (degrees + minutes / 60 + seconds / 3600) * direction;
 };
 
-const loadExifData = async (file: string): Promise<ImageData> => {
-  console.log(`# Reading EXIF GPS data from ${file}...`);
-  let exifData;
-  try {
-    exifData = await exifPromise({ image: file });
-  } catch (error) {
-    console.log(error);
-    throw new Error(error.message);
-  }
-
+const parseExifData = (exifData: any, file: string): ImageData => {
   const { gps, exif } = exifData;
 
   const lat = translateToDecimal(gps.GPSLatitude, gps.GPSLatitudeRef);
@@ -51,9 +42,33 @@ const loadExifData = async (file: string): Promise<ImageData> => {
   };
 };
 
+const readExifData = async (buffer: Buffer) => {
+  try {
+    return await exifPromise({ image: buffer });
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+const loadExifData = async (file: string): Promise<ImageData> => {
+  console.log(`# Reading EXIF GPS data from ${file}...`);
+  let exifData;
+  try {
+    const imageBuffer = await loadImage(file);
+    exifData = await readExifData(imageBuffer);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+  return parseExifData(exifData, file);
+};
+
 const loadFromFile = async (filePath: string): Promise<ImageData[]> => {
-  const imageData = await loadExifData(filePath);
-  return [imageData];
+  try {
+    const imageData = await loadExifData(filePath);
+    return [imageData];
+  } catch (error) {
+    throw new Error(error.message);
+  }
 };
 
 // TODO figure out how to use async/await instead of promise handling
@@ -61,26 +76,37 @@ const loadFromDir = async (dirPath: string): Promise<ImageData[]> => {
   const imageFiles = listImagesInDir(dirPath);
   const promises: Promise<ImageData>[] = imageFiles.map(
     async (file: string): Promise<ImageData> => {
-      return await loadExifData(path.join(dirPath, file));
+      try {
+        return await loadExifData(path.join(dirPath, file));
+      } catch (error) {
+        throw new Error(error.message);
+      }
     }
   );
 
-  return Promise.all<any>(promises).then((coords: any) => coords);
+  return Promise.all<any>(promises).then(
+    (imageData: any) => imageData,
+    error => {
+      throw new Error(error);
+    }
+  );
 };
 
-export const generateCoordinates = async (
-  path: string
-): Promise<ImageData[]> => {
+export const generateImageData = async (path: string): Promise<ImageData[]> => {
   const pathType = getPathType(path);
 
   let imageData: ImageData[] = [];
-  switch (pathType) {
-    case FILE_TYPE:
-      imageData = await loadFromFile(path);
-      break;
-    case DIRECTORY_TYPE:
-      imageData = await loadFromDir(path);
-      break;
+  try {
+    switch (pathType) {
+      case FILE_TYPE:
+        imageData = await loadFromFile(path);
+        break;
+      case DIRECTORY_TYPE:
+        imageData = await loadFromDir(path);
+        break;
+    }
+  } catch (error) {
+    throw new Error(error.message);
   }
 
   return imageData;

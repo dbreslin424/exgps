@@ -1,5 +1,5 @@
 import { run } from './exgps';
-import { generateCoordinates } from './modules/exif-gps';
+import { generateImageData } from './modules/exif-gps';
 import { generate, write } from './modules/kml-generator';
 
 //jest.mock('./modules/exif');
@@ -8,7 +8,7 @@ import { generate, write } from './modules/kml-generator';
 describe('exgps main functionality', () => {
   it('should run main method and call child modules', () => {
     run('/path/to/file.jpg').then(() => {
-      expect(generateCoordinates).toHaveBeenCalled();
+      expect(generateImageData).toHaveBeenCalled();
       expect(generate).toHaveBeenCalled();
       expect(write).toHaveBeenCalled();
     });

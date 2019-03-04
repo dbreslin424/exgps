@@ -9,7 +9,7 @@ if (args.version || args.v) {
 }
 
 // parse flags into options object
-const path = args.f || args.file;
+const path = args.i || args.input;
 const options = {};
 
 if (args.o || args.output) {

@@ -1,20 +1,23 @@
 {
   "name": "exgps",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Tool to extract GPS coordinates from photos",
   "repository": {
     "type": "git",
     "url": "https://github.com/dbreslin424/exgps"
   },
-  "main": "exgps.js",
-  "bin": {
-    "exgps": "bin/cli.js"
-  },
+  "main": "dist/exgps.js",
+  "files": [
+    "/dist"
+  ],
   "scripts": {
+    "setup": "npm install",
     "start": "node exgps.js",
     "test": "jest",
+    "test-watch": "jest --watch",
     "build": "tsc",
     "watch": "tsc -w",
+    "package": "tsc --sourceMap false",
     "coverage": "jest --coverage",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls && rm -rf ./coverage"
   },
